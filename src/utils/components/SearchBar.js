@@ -1,10 +1,19 @@
 import React from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
+import translate from '../api/api';
 
 const SearchBar = props => {
   let searchTerm;
   const updateText = () => {
-    props.setText(searchTerm);
+    let words = translate('en', 'fr', searchTerm)
+      .then(data => {
+        data = data.data;
+        data = data.map(word => (word = word.targets[0].lemma + '\n'));
+        props.setText(data);
+      })
+      .catch(error => {
+        props.setText('Bad search. Did you spell the word correctly?');
+      });
   };
 
   return (
