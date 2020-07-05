@@ -1,11 +1,10 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
-import SearchBar from '../utils/components/SearchBar';
-import DictionaryEntriesContainer from '../utils/components/DictionaryEntriesContainer';
-import translate from '../utils/api/api';
+import SearchBar from './SearchBar';
+import DictionaryEntriesContainer from './DictionaryEntriesContainer';
+import translate from '../../../api/api';
 
-// This should be SearchScreenContainer
-const SearchScreen = ({navigation}) => {
+const SearchScreenContainer = ({navigation}) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -28,4 +27,4 @@ const SearchScreen = ({navigation}) => {
   );
 };
 
-export default SearchScreen;
+export default SearchScreenContainer;

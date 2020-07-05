@@ -1,5 +1,4 @@
 import axios from 'axios';
-// const axios = require('axios');
 
 const translate = (sourceLang, targetLang, word) => {
   return axios({
@@ -29,7 +28,3 @@ const translate = (sourceLang, targetLang, word) => {
 };
 
 export default translate;
-
-// translate('en', 'fr', 'roll').then(data =>
-//   data.data.map(word => console.log(word)),
-// );
