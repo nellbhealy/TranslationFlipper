@@ -4,6 +4,8 @@ import SearchBar from './SearchBar';
 import DictionaryEntriesContainer from './DictionaryEntriesContainer';
 import translate from '../../../api/api';
 
+const BAD_SEARCH = 'Bad search. Did you spell the word correctly?';
+
 const SearchScreenContainer = ({navigation}) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,7 +17,7 @@ const SearchScreenContainer = ({navigation}) => {
         setData(responseData);
       })
       .catch(error => {
-        setData('Bad search. Did you spell the word correctly?');
+        setData([BAD_SEARCH]);
       });
   };
 

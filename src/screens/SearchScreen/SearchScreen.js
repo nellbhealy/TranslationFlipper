@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React from 'react';
 import SearchScreenContainer from './components/SearchScreenContainer';
-import {SearchSource} from 'jest';
 
 const SearchScreen = ({navigation}) => {
   return <SearchScreenContainer />;
