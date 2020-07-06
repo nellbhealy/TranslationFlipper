@@ -3,26 +3,10 @@ import {ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import DictionaryEntry from './DictionaryEntry.js';
 
-const getUpdatedInfo = (entryNum, data) => {
-  try {
-    console.log(data[entryNum]);
-    return data[entryNum];
-  } catch (error) {
-    return error.toString();
-  }
-};
-
 const getEntries = data => {
   const entries = [];
   for (entry in data)
-    entries.push(
-      <DictionaryEntry
-        key={entry}
-        //entryNum={entry}
-        //getUpdatedInfo={entryNum => getUpdatedInfo(entryNum, data)}
-        wordInfo={data[entry]}
-      />,
-    );
+    entries.push(<DictionaryEntry key={entry} wordInfo={data[entry]} />);
   return entries;
 };
 
@@ -33,5 +17,6 @@ const DictionaryEntriesContainer = ({data}) => {
 export default DictionaryEntriesContainer;
 
 DictionaryEntriesContainer.propTypes = {
+  //TODO: expand into arrayOf
   data: PropTypes.array.isRequired,
 };

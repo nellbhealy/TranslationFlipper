@@ -19,4 +19,9 @@ const DictionaryEntryExpansion = ({expressions}) => {
   );
 };
 
+DictionaryEntryExpansion.propTypes = {
+  //TODO: expand into arrayOf
+  expressions: PropTypes.array.isRequired,
+};
+
 export default DictionaryEntryExpansion;

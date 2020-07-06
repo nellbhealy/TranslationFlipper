@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, tou} from 'react-native';
 import PropTypes from 'prop-types';
 import DictionaryEntryExpansion from './DictionaryEntryExpansion';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   entry: {
@@ -15,25 +16,31 @@ const styles = StyleSheet.create({
   pos: {fontStyle: 'italic'},
 });
 
-const getExpressions = wordInfo => {
-  const expressions = wordInfo.targets[0].expressions;
-  return expressions;
-};
-
+// make this DictionaryEntryContainer
 const DictionaryEntry = ({wordInfo}) => {
-  // make this DictionaryEntryContainer
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const handlePress = () => {
+    setIsExpanded(expanded => !expanded);
+  };
+
   return (
-    <View style={styles.entry}>
-      <View style={styles.topEntry}>
-        <Text>
-          {wordInfo.source.lemma}{' '}
-          <Text style={styles.pos}>({wordInfo.source.pos})</Text>
-        </Text>
-        <Text>{wordInfo.targets[0].lemma}</Text>
+    <TouchableHighlight onPress={handlePress}>
+      <View style={styles.entry}>
+        <View style={styles.topEntry}>
+          <Text>
+            {wordInfo.source.lemma}{' '}
+            <Text style={styles.pos}>({wordInfo.source.pos})</Text>
+          </Text>
+          <Text>{wordInfo.targets[0].lemma}</Text>
+        </View>
+        {isExpanded ? (
+          <DictionaryEntryExpansion
+            expressions={wordInfo.targets[0].expressions}
+          />
+        ) : null}
       </View>
-      <DictionaryEntryExpansion expressions={getExpressions(wordInfo)} />
-    </View>
+    </TouchableHighlight>
   );
 };
 
