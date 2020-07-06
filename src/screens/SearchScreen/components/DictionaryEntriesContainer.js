@@ -3,25 +3,29 @@ import {ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import DictionaryEntry from './DictionaryEntry.js';
 
-const DictionaryEntriesContainer = props => {
-  const updateInfo = entryNum => {
-    try {
-      return props.data[entryNum].targets[0].lemma;
-    } catch (error) {
-      return error.toString();
-    }
-  };
+const getUpdatedInfo = (entryNum, data) => {
+  try {
+    return data[entryNum].targets[0].lemma;
+  } catch (error) {
+    return error.toString();
+  }
+};
 
-  const getEntries = () => {
-    const entries = [];
-    for (entry in props.data)
-      entries.push(
-        <DictionaryEntry entryNum={entry} updateInfo={updateInfo} />,
-      );
-    return entries;
-  };
+const getEntries = data => {
+  const entries = [];
+  for (entry in data)
+    entries.push(
+      <DictionaryEntry
+        key={entry}
+        entryNum={entry}
+        getUpdatedInfo={entryNum => getUpdatedInfo(entryNum, data)}
+      />,
+    );
+  return entries;
+};
 
-  return <ScrollView>{getEntries()}</ScrollView>;
+const DictionaryEntriesContainer = ({data}) => {
+  return <ScrollView>{getEntries(data)}</ScrollView>;
 };
 
 export default DictionaryEntriesContainer;

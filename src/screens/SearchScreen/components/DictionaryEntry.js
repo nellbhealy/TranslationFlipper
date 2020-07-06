@@ -2,16 +2,17 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import PropTypes from 'prop-types';
 
-const DictionaryEntry = props => {
+const DictionaryEntry = ({getUpdatedInfo, entryNum}) => {
   return (
     <View>
-      <Text>{props.updateInfo(props.entryNum)}</Text>
+      <Text>{getUpdatedInfo(entryNum)}</Text>
     </View>
   );
 };
 
 DictionaryEntry.propTypes = {
-  data: PropTypes.isRequired,
+  entryNum: PropTypes.string.isRequired,
+  getUpdatedInfo: PropTypes.func.isRequired,
 };
 
 export default DictionaryEntry;
