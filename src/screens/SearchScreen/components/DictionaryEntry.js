@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, tou} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import DictionaryEntryExpansion from './DictionaryEntryExpansion';
 import {TouchableHighlight} from 'react-native-gesture-handler';
