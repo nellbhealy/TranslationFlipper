@@ -3,7 +3,7 @@ import {View, TextInput, Button, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 
 const PLACEHOLDER_TEXT = 'What word do you want to look up?';
-const MARGIN_HORIZ = 16;
+const MARGIN = 16;
 
 const styles = StyleSheet.create({
   input: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   fixToText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: MARGIN_HORIZ,
+    margin: MARGIN,
     backgroundColor: 'white',
   },
 });

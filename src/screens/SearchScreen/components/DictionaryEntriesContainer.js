@@ -5,7 +5,8 @@ import DictionaryEntry from './DictionaryEntry.js';
 
 const getUpdatedInfo = (entryNum, data) => {
   try {
-    return data[entryNum].targets[0].lemma;
+    console.log(data[entryNum]);
+    return data[entryNum];
   } catch (error) {
     return error.toString();
   }
@@ -17,8 +18,9 @@ const getEntries = data => {
     entries.push(
       <DictionaryEntry
         key={entry}
-        entryNum={entry}
-        getUpdatedInfo={entryNum => getUpdatedInfo(entryNum, data)}
+        //entryNum={entry}
+        //getUpdatedInfo={entryNum => getUpdatedInfo(entryNum, data)}
+        wordInfo={data[entry]}
       />,
     );
   return entries;
