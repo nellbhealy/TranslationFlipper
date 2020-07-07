@@ -10,14 +10,12 @@ const DictionaryEntriesContainer = ({ data, emptyMessage, isSearching }) => {
     if (emptyMessage.length !== 0) {
       return <Text>{emptyMessage}</Text>;
     }
-    const entries = [];
 
-    const pushEntries = (entry) => {
-      entries.push(<DictionaryEntry key={entry} wordInfo={data[entry]} />);
-    };
+    const makeEntries = (entry) => (
+      <DictionaryEntry key={entry} wordInfo={data[entry]} />
+    );
 
-    Object.keys(data).map(pushEntries);
-    return entries;
+    return Object.keys(data).map(makeEntries);
   };
 
   return (

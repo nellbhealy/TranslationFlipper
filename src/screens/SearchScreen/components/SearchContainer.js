@@ -17,7 +17,7 @@ const updateData = (searchTerm, setData, setEmptyMessage, setIsSearching) => {
         setData([]);
         setEmptyMessage(BAD_SEARCH);
       } else {
-        setData(responseData);
+        setData(wordData);
         setEmptyMessage('');
       }
       setIsSearching(false);
