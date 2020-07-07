@@ -1,8 +1,8 @@
 import React from 'react';
-import SearchScreenContainer from './components/SearchScreenContainer';
+import SearchContainer from './components/SearchContainer';
 
 const SearchScreen = ({navigation}) => {
-  return <SearchScreenContainer />;
+  return <SearchContainer />;
 };
 
 export default SearchScreen;

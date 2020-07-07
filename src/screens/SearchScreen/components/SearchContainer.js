@@ -8,7 +8,8 @@ const BAD_SEARCH = 'No results. Did you spell the word correctly?';
 const SOURCE_LANG = 'en';
 const TARGET_LANG = 'fr';
 
-const updateData = (searchTerm, setData, setEmptyMessage) => {
+const updateData = (searchTerm, setData, setEmptyMessage, setIsSearching) => {
+  setIsSearching(true);
   translate(SOURCE_LANG, TARGET_LANG, searchTerm)
     .then(responseData => {
       responseData = responseData.data;
@@ -19,27 +20,36 @@ const updateData = (searchTerm, setData, setEmptyMessage) => {
         setData(responseData);
         setEmptyMessage('');
       }
+      setIsSearching(false);
     })
     .catch(error => {
       setData([]);
       setEmptyMessage(BAD_SEARCH);
+      setIsSearching(false);
     });
 };
 
-const SearchScreenContainer = ({navigation}) => {
+const SearchContainer = ({navigation}) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [emptyMessage, setEmptyMessage] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
   return (
     <View>
       <SearchBar
-        updateData={() => updateData(searchTerm, setData, setEmptyMessage)}
+        updateData={() =>
+          updateData(searchTerm, setData, setEmptyMessage, setIsSearching)
+        }
         setSearchTerm={setSearchTerm}
       />
-      <DictionaryEntriesContainer data={data} emptyMessage={emptyMessage} />
+      <DictionaryEntriesContainer
+        data={data}
+        emptyMessage={emptyMessage}
+        isSearching={isSearching}
+      />
     </View>
   );
 };
 
-export default SearchScreenContainer;
+export default SearchContainer;

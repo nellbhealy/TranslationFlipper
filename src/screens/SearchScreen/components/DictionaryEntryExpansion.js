@@ -6,14 +6,11 @@ import Expression from './Expression';
 const DictionaryEntryExpansion = ({expressions}) => {
   return (
     <View>
-      {expressions[0]
-        ? expressions.map(
-            expression =>
-              (expression = (
-                // probably a bad key, should find a better one
-                <Expression key={expression.source} expressions={expression} />
-              )),
-          )
+      {expressions.length
+        ? expressions.map(expression => (
+            // probably a bad key, should find a better one
+            <Expression key={expression.source} expressions={expression} />
+          ))
         : null}
     </View>
   );
