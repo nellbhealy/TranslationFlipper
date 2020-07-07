@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, Button, StyleSheet} from 'react-native';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 const PLACEHOLDER_TEXT = 'What word do you want to look up?';
@@ -21,21 +21,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const SearchBar = props => {
-  return (
-    <View style={styles.fixToText}>
-      <TextInput
-        placeholder={PLACEHOLDER_TEXT}
-        onChangeText={inputText => props.setSearchTerm(inputText)}
-        onEndEditing={props.updateData}
-        style={styles.input}
-      />
-      <View style={styles.button}>
-        <Button onPress={props.updateData} title="search" />
-      </View>
+const SearchBar = (props) => (
+  <View style={styles.fixToText}>
+    <TextInput
+      placeholder={PLACEHOLDER_TEXT}
+      onChangeText={(inputText) => props.setSearchTerm(inputText)}
+      onEndEditing={props.updateData}
+      style={styles.input}
+    />
+    <View style={styles.button}>
+      <Button onPress={props.updateData} title="search" />
     </View>
-  );
-};
+  </View>
+);
 
 export default SearchBar;
 

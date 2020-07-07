@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+
 import DictionaryEntryExpansion from './DictionaryEntryExpansion';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   entry: {
@@ -13,15 +14,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  pos: {fontStyle: 'italic'},
+  pos: { fontStyle: 'italic' },
 });
 
 // make this DictionaryEntryContainer
-const DictionaryEntry = ({wordInfo}) => {
+const DictionaryEntry = ({ wordInfo }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handlePress = () => {
-    setIsExpanded(expanded => !expanded);
+    setIsExpanded((expanded) => !expanded);
   };
 
   return (

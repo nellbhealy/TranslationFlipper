@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import SearchBar from './SearchBar';
 import DictionaryEntriesContainer from './DictionaryEntriesContainer';
 import translate from '../../../api/api';
@@ -11,9 +11,9 @@ const TARGET_LANG = 'fr';
 const updateData = (searchTerm, setData, setEmptyMessage, setIsSearching) => {
   setIsSearching(true);
   translate(SOURCE_LANG, TARGET_LANG, searchTerm)
-    .then(responseData => {
-      responseData = responseData.data;
-      if (responseData === undefined) {
+    .then((responseData) => {
+      const wordData = responseData.data;
+      if (wordData === undefined) {
         setData([]);
         setEmptyMessage(BAD_SEARCH);
       } else {
@@ -22,14 +22,14 @@ const updateData = (searchTerm, setData, setEmptyMessage, setIsSearching) => {
       }
       setIsSearching(false);
     })
-    .catch(error => {
+    .catch(() => {
       setData([]);
       setEmptyMessage(BAD_SEARCH);
       setIsSearching(false);
     });
 };
 
-const SearchContainer = ({navigation}) => {
+const SearchContainer = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [emptyMessage, setEmptyMessage] = useState('');

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,13 +12,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const Expression = ({expressions}) => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.expression}>{expressions.source}</Text>
-      <Text style={styles.expression}>{expressions.target}</Text>
-    </View>
-  );
-};
+const Expression = ({ expressions }) => (
+  <View style={styles.container}>
+    <Text style={styles.expression}>{expressions.source}</Text>
+    <Text style={styles.expression}>{expressions.target}</Text>
+  </View>
+);
 
 export default Expression;
