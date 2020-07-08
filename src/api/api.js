@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const translate = (sourceLang, targetLang, word) => {
-  return axios({
+const translate = (sourceLang, targetLang, word) =>
+  axios({
     method: 'GET',
     url:
       'https://systran-systran-platform-for-language-processing-v1.p.rapidapi.com/resources/dictionary/lookup',
@@ -18,13 +18,12 @@ const translate = (sourceLang, targetLang, word) => {
       input: word,
     },
   })
-    .then(response => {
-      data = response.data.outputs[0].output.matches;
-      return {responseCode: 200, data: data};
+    .then((response) => {
+      const data = response.data.outputs[0].output.matches;
+      return { responseCode: 200, data };
     })
-    .catch(error => {
-      return {responseCode: 400, message: error};
-    });
-};
+    .catch((error) => ({ responseCode: 400, message: error }));
+
+export const getLemma = (word) => word.targets[0].lemma;
 
 export default translate;

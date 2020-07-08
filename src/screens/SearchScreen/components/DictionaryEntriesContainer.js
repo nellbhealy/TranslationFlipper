@@ -2,8 +2,7 @@ import React from 'react';
 import { Text, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import DictionaryEntry from './DictionaryEntry';
-
-const SEARCHING_MESSAGE = 'Searching....';
+import { SEARCHING_MESSAGE } from '../../../utils/constants';
 
 const DictionaryEntriesContainer = ({ data, emptyMessage, isSearching }) => {
   const getEntries = () => {
