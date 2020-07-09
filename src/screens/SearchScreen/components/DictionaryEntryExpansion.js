@@ -7,7 +7,6 @@ const DictionaryEntryExpansion = ({ expressions }) => (
   <View>
     {expressions.length
       ? expressions.map((expression) => (
-          // probably a bad key, should find a better one
           <Expression key={expression.source} expressions={expression} />
           // eslint-disable-next-line indent
         ))
@@ -16,8 +15,8 @@ const DictionaryEntryExpansion = ({ expressions }) => (
 );
 
 DictionaryEntryExpansion.propTypes = {
-  // TODO: expand into arrayOf
-  expressions: PropTypes.array.isRequired,
+  expressions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleButtonPress: PropTypes.func.isRequired,
 };
 
 export default DictionaryEntryExpansion;
