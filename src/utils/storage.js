@@ -28,8 +28,11 @@ export const setUser = async (user) => {
 
 export const getUserData = async (userParam) => {
   let user;
-  if (!userParam) user = await getUser();
-  else user = userParam;
+  if (!userParam) {
+    user = await getUser();
+  } else {
+    user = userParam;
+  }
   try {
     if (user === DEFAULT_USER) {
       return DEFAULT_USER_ERROR;
