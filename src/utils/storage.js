@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { DEFAULT_USER } from './constants';
-import { getLemma } from '../api/api';
+import { getTargetLemma } from '../api/getters';
 
 const DEFAULT_USER_ERROR = 'No user selected! Have you logged in?';
 
@@ -59,7 +59,7 @@ const addToWordList = async (word) => {
   const wordList = await getWordList();
   if (!wordList) return false;
   try {
-    const lemma = getLemma(word);
+    const lemma = getTargetLemma(word);
     if (Object.keys(wordList).includes(lemma)) return false;
     wordList[lemma] = word;
     await AsyncStorage.setItem('@wordList', JSON.stringify(wordList));
@@ -76,7 +76,7 @@ export const addWordToUserList = async (word) => {
     if (userData === DEFAULT_USER_ERROR) return false;
     if (!userData) userData = { wordList: [] };
     userData.wordList.push({
-      word: getLemma(word),
+      word: getTargetLemma(word),
       otherInfo: { date: new Date() },
     });
     addToWordList(word);
@@ -109,3 +109,6 @@ export const getWordData = async (lemma) => {
   const wordData = await getWordList();
   return wordData[lemma];
 };
+
+export const getUserWordList = async (user) =>
+  getUserData(user).then((list) => list.wordList.map((word) => word.word));

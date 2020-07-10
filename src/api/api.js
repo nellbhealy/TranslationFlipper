@@ -24,6 +24,4 @@ const translate = (sourceLang, targetLang, word) =>
     })
     .catch((error) => ({ responseCode: 400, message: error }));
 
-export const getLemma = (word) => word.targets[0].lemma;
-
 export default translate;

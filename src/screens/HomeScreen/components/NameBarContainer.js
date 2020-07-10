@@ -4,9 +4,8 @@ import { View, Text, Button, ScrollView } from 'react-native';
 import {
   getUser,
   setUser,
-  getUserData,
   clearWordList,
-  getWordData,
+  getUserWordList,
 } from '../../../utils/storage';
 
 import NameBar from './NameBar';
@@ -32,9 +31,7 @@ const NameBarContainer = () => {
   }, []);
 
   useEffect(() => {
-    getUserData(name)
-      .then((list) => list.wordList.map((word) => word.word))
-      .then((value) => setUserData(value));
+    getUserWordList(name).then((value) => setUserData(value));
   }, [name]);
 
   return (
