@@ -6,18 +6,19 @@ const LIMITS = [8, 6, 4, 2, 1];
 
 export const getNewLevel = (list, currentLevel, numQuizzed) => {
   const current = LEVELS.indexOf(currentLevel);
-  if (
+  const allLevelsDone =
     current >= LEVELS.length - 1 &&
     (numQuizzed >= LIMITS[current] ||
       !list[currentLevel] ||
-      Object.keys(list[currentLevel]))
-  ) {
-    return null;
-  } else if (
+      Object.keys(list[currentLevel]));
+  const needNewLevel =
     numQuizzed >= LIMITS[current] ||
     !list[currentLevel] ||
-    !Object.keys(list[currentLevel]).length
-  ) {
+    !Object.keys(list[currentLevel]).length;
+
+  if (allLevelsDone) {
+    return null;
+  } else if (needNewLevel) {
     return getNewLevel(list, LEVELS[current + 1], 0);
   } else {
     return currentLevel;
@@ -33,23 +34,19 @@ export const getNewWordLevel = (currentLevel) => {
   }
 };
 
-export const handleCorrect = (word, list, currentLevel) => {
+export const handleCorrectOrIncorrect = (
+  isCorrect,
+  word,
+  list,
+  currentLevel,
+) => {
   const tempList = list;
   const lemma = getTargetLemma(word);
   delete tempList[currentLevel][lemma];
-  const newLevel = getNewWordLevel(currentLevel);
+  const newLevel = isCorrect ? getNewWordLevel(currentLevel) : LEVELS[0];
   if (newLevel) {
     tempList[newLevel][lemma] = word;
   }
-  updateUserWordList(tempList);
-  return tempList;
-};
-
-export const handleIncorrect = (word, list, currentLevel) => {
-  const tempList = list;
-  const lemma = getTargetLemma(word);
-  delete tempList[currentLevel][lemma];
-  tempList[LEVELS[0]][lemma] = word;
   updateUserWordList(tempList);
   return tempList;
 };

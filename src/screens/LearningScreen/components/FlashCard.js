@@ -16,9 +16,7 @@ const styles = StyleSheet.create({
 const FlashCard = ({ word, isRevealed, isExpanded, children }) => (
   <View style={styles.card}>
     <Text>{word.targets ? getTargetLemma(word) : null}</Text>
-    <Text>
-      {isRevealed ? (word.source ? getSourceLemma(word) : null) : null}
-    </Text>
+    <Text>{isRevealed && word.source ? getSourceLemma(word) : null}</Text>
     <View>
       {isExpanded
         ? getExpressions(word).map((exp) => (

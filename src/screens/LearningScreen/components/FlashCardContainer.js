@@ -4,8 +4,7 @@ import { View, Button, Text } from 'react-native';
 import { getUserData } from '../../../utils/storage';
 import {
   getRandomWord,
-  handleCorrect,
-  handleIncorrect,
+  handleCorrectOrIncorrect,
   getNewLevel,
 } from '../../../utils/spacing';
 import FlashCard from './FlashCard';
@@ -27,15 +26,13 @@ const FlashCardContainer = () => {
   const [currentLevel, setCurrentLevel] = useState('one');
   const [numQuizzed, setNumQuizzed] = useState(0);
 
-  const handleCorrectButtonPress = () => {
-    const temp = handleCorrect(wordInfo, list, currentLevel);
-    setList(temp);
-    // TODO: Why is this neccesary? Why isn't the useEffect on line 84 calling this??
-    handleNewWord();
-  };
-
-  const handleMissButtonPress = () => {
-    const temp = handleIncorrect(wordInfo, list, currentLevel);
+  const handleCorrectOrIncorrectButtonPress = (isCorrect) => {
+    const temp = handleCorrectOrIncorrect(
+      isCorrect,
+      wordInfo,
+      list,
+      currentLevel,
+    );
     setList(temp);
     // TODO: Why is this neccesary? Why isn't the useEffect on line 84 calling this??
     handleNewWord();
@@ -114,11 +111,11 @@ const FlashCardContainer = () => {
               <View>
                 <Button
                   title="Got It"
-                  onPress={() => handleCorrectButtonPress()}
+                  onPress={() => handleCorrectOrIncorrectButtonPress(true)}
                 />
                 <Button
                   title="Missed It"
-                  onPress={() => handleMissButtonPress(list, setList)}
+                  onPress={() => handleCorrectOrIncorrectButtonPress(false)}
                 />
               </View>
             ) : null}
