@@ -34,6 +34,17 @@ const NameBarContainer = () => {
     getUserWordList(name).then((value) => setUserData(value));
   }, [name]);
 
+  const refreshList = () => {
+    getUserWordList(name).then((value) => setUserData(value));
+  };
+
+  const getWords = () => {
+    const words = {};
+    Object.keys(userData).map(
+      (key) => (words[key] = Object.keys(userData[key])),
+    );
+    return words;
+  };
   return (
     <View>
       <Text>Hi, {name}</Text>
@@ -43,7 +54,9 @@ const NameBarContainer = () => {
       />
       <Button title="Clear word list" onPress={handleClearButtonPress} />
       <ScrollView>
-        <Text>User Data: {JSON.stringify(userData)}</Text>
+        <Text onPress={refreshList}>
+          User Data: {JSON.stringify(getWords())}
+        </Text>
       </ScrollView>
     </View>
   );
