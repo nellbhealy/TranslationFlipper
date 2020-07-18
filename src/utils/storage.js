@@ -5,6 +5,14 @@ import { getTargetLemma } from '../api/getters';
 
 const DEFAULT_USER_ERROR = 'No user selected! Have you logged in?';
 
+const getBlankUserWordList = () => ({
+  one: {},
+  two: {},
+  three: {},
+  four: {},
+  five: {},
+});
+
 export const getUser = async () => {
   try {
     const user = await AsyncStorage.getItem('@user');
@@ -73,16 +81,24 @@ export const addWordToUserList = async (word) => {
   try {
     const user = await getUser();
     let userData = await getUserData(user);
-    if (userData === DEFAULT_USER_ERROR) return false;
-    if (!userData) userData = { wordList: [] };
-    userData.wordList.push({
-      word: getTargetLemma(word),
+
+    if (userData === DEFAULT_USER_ERROR) {
+      return false;
+    }
+
+    if (!userData) {
+      userData = {
+        wordList: getBlankUserWordList(),
+      };
+    }
+    userData.wordList.one[getTargetLemma(word)] = {
       otherInfo: { date: new Date() },
-    });
+    };
     addToWordList(word);
     await AsyncStorage.setItem(`@${user}`, JSON.stringify(userData));
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
@@ -97,7 +113,7 @@ export const clearWordList = async () => {
       return false;
     }
 
-    userData.wordList = [];
+    userData.wordList = getBlankUserWordList();
     await AsyncStorage.setItem(`@${user}`, JSON.stringify(userData));
     return true;
   } catch (error) {
@@ -111,4 +127,16 @@ export const getWordData = async (lemma) => {
 };
 
 export const getUserWordList = async (user) =>
-  getUserData(user).then((list) => list.wordList.map((word) => word.word));
+  getUserData(user).then((list) => list.wordList);
+
+export const updateUserWordList = async (wordList) => {
+  try {
+    const user = await getUser();
+    const data = await getUserData(user);
+    data.wordList = wordList;
+    await AsyncStorage.setItem(`@${user}`, JSON.stringify(data));
+    return true;
+  } catch {
+    return false;
+  }
+};
