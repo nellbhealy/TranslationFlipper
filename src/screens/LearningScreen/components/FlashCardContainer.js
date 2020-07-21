@@ -77,6 +77,8 @@ const FlashCardContainer = () => {
         targets: wordData.targets,
       });
     });
+
+    setDone(false);
   }, [list, currentLevel]);
 
   return (
