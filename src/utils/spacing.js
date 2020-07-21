@@ -1,8 +1,8 @@
 import { getWordData, updateUserWordList } from './storage';
 import { getTargetLemma } from '../api/getters';
 
-const LEVELS = ['one', 'two', 'three', 'four', 'five'];
-const LIMITS = [8, 6, 4, 2, 1];
+export const LEVELS = ['one', 'two', 'three', 'four', 'five'];
+export const LIMITS = [8, 6, 4, 2, 1];
 
 export const getNewLevel = (list, currentLevel, numQuizzed) => {
   const currentIndex = LEVELS.indexOf(currentLevel);

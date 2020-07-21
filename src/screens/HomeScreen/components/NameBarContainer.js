@@ -24,7 +24,7 @@ const handleClearButtonPress = async () => {
 const NameBarContainer = () => {
   const [name, setName] = useState('');
   const [inputText, setInputText] = useState('');
-  const [userData, setUserData] = useState('');
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     getData().then((value) => setName(value));

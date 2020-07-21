@@ -5,7 +5,9 @@ import { getUserData } from '../../../utils/storage';
 import {
   getRandomWord,
   handleCorrectOrIncorrect,
-  getNewLevel,
+  getNewWordLevel,
+  LIMITS,
+  LEVELS,
 } from '../../../utils/spacing';
 import FlashCard from './FlashCard';
 
@@ -20,7 +22,6 @@ const handleExpressionsButtonPress = (setExpanded) => {
 const FlashCardContainer = () => {
   const [list, setList] = useState({});
   const [wordInfo, setWordInfo] = useState({});
-  const [done, setDone] = useState(false);
   const [isExpanded, setExpanded] = useState(false);
   const [isRevealed, setRevealed] = useState(false);
   const [currentLevel, setCurrentLevel] = useState('one');
@@ -34,19 +35,9 @@ const FlashCardContainer = () => {
       currentLevel,
     );
 
-    let quizzed = numQuizzed + 1;
-
-    const oldLevel = currentLevel;
-    const newLevel = getNewLevel(list, currentLevel, numQuizzed);
-    if (oldLevel !== newLevel) {
-      quizzed = 0;
-    }
-
     // EFFECTS
-    setCurrentLevel(newLevel);
     setList(temp);
-    setNumQuizzed(quizzed);
-    setDone(false);
+    setNumQuizzed((quizzed) => quizzed + 1);
     setRevealed(false);
     setExpanded(false);
   };
@@ -56,7 +47,7 @@ const FlashCardContainer = () => {
 
     getUserData().then((userData) => {
       if (mounted) {
-        setList(userData.wordList ? userData.wordList : { one: null });
+        setList(userData.wordList);
       }
     });
 
@@ -67,23 +58,27 @@ const FlashCardContainer = () => {
 
   useEffect(() => {
     if (!list || !currentLevel || !list[currentLevel]) {
-      setDone(true);
       return;
     }
 
-    getRandomWord(list[currentLevel]).then((wordData) => {
-      setWordInfo({
-        source: wordData.source,
-        targets: wordData.targets,
-      });
-    });
+    const limit = LIMITS[LEVELS.indexOf(currentLevel)];
 
-    setDone(false);
-  }, [list, currentLevel]);
+    if (!Object.keys(list[currentLevel]).length || numQuizzed >= limit) {
+      setCurrentLevel(getNewWordLevel(currentLevel));
+      setNumQuizzed(0);
+    } else {
+      getRandomWord(list[currentLevel]).then((wordData) => {
+        setWordInfo({
+          source: wordData.source,
+          targets: wordData.targets,
+        });
+      });
+    }
+  }, [list, currentLevel, numQuizzed]);
 
   return (
     <View>
-      {done ? (
+      {!currentLevel ? (
         <Text>All Done!</Text>
       ) : (
         <>
@@ -104,11 +99,15 @@ const FlashCardContainer = () => {
               <View>
                 <Button
                   title="Got It"
-                  onPress={() => handleCorrectOrIncorrectButtonPress(true)}
+                  onPress={() => {
+                    handleCorrectOrIncorrectButtonPress(true);
+                  }}
                 />
                 <Button
                   title="Missed It"
-                  onPress={() => handleCorrectOrIncorrectButtonPress(false)}
+                  onPress={() => {
+                    handleCorrectOrIncorrectButtonPress(false);
+                  }}
                 />
               </View>
             ) : null}
