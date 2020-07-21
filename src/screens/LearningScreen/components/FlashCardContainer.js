@@ -34,8 +34,6 @@ const FlashCardContainer = () => {
       currentLevel,
     );
     setList(temp);
-    // TODO: Why is this neccesary? Why isn't the useEffect on line 84 calling this??
-    handleNewWord();
   };
 
   useEffect(() => {
@@ -46,15 +44,17 @@ const FlashCardContainer = () => {
         newList = userData.wordList;
       } else {
         newList = {};
-        newList[currentLevel] = null;
+        newList.one = null;
       }
       mounted ? setList(newList) : null;
     });
 
-    return () => (mounted = false);
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  const handleNewWord = () => {
+  useEffect(() => {
     if (!list || !list[currentLevel]) {
       return;
     }
@@ -82,10 +82,6 @@ const FlashCardContainer = () => {
     } else {
       setDone(true);
     }
-  };
-
-  useEffect(() => {
-    handleNewWord();
   }, [list]);
 
   return (

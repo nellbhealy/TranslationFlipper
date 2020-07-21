@@ -40,14 +40,16 @@ export const handleCorrectOrIncorrect = (
   list,
   currentLevel,
 ) => {
-  const tempList = list;
+  const tempList = { ...list };
   const lemma = getTargetLemma(word);
   delete tempList[currentLevel][lemma];
+
   const newLevel = isCorrect ? getNewWordLevel(currentLevel) : LEVELS[0];
   if (newLevel) {
     tempList[newLevel][lemma] = word;
   }
   updateUserWordList(tempList);
+
   return tempList;
 };
 
