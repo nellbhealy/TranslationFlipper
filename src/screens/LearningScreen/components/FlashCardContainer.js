@@ -33,24 +33,30 @@ const FlashCardContainer = () => {
       list,
       currentLevel,
     );
+
+    let quizzed = numQuizzed + 1;
+
+    const oldLevel = currentLevel;
+    const newLevel = getNewLevel(list, currentLevel, numQuizzed);
+    if (oldLevel !== newLevel) {
+      quizzed = 0;
+    }
+
+    // EFFECTS
+    setCurrentLevel(newLevel);
     setList(temp);
+    setNumQuizzed(quizzed);
+    setDone(false);
+    setRevealed(false);
+    setExpanded(false);
   };
 
   useEffect(() => {
     let mounted = true;
 
     getUserData().then((userData) => {
-      let newList;
-
-      if (userData.wordList) {
-        newList = userData.wordList;
-      } else {
-        newList = {};
-        newList.one = null;
-      }
-
       if (mounted) {
-        setList(newList);
+        setList(userData.wordList ? userData.wordList : { one: null });
       }
     });
 
@@ -60,34 +66,18 @@ const FlashCardContainer = () => {
   }, []);
 
   useEffect(() => {
-    if (!list || !list[currentLevel]) {
+    if (!list || !currentLevel || !list[currentLevel]) {
+      setDone(true);
       return;
     }
 
-    setDone(false);
-    setRevealed(false);
-    setExpanded(false);
-
-    const oldLevel = currentLevel;
-    const newLevel = getNewLevel(list, currentLevel, numQuizzed);
-    if (oldLevel !== newLevel) {
-      setCurrentLevel(newLevel);
-      setNumQuizzed(0);
-    }
-
-    if (newLevel) {
-      getRandomWord(list[newLevel]).then((wordData) => {
-        setWordInfo({
-          source: wordData.source,
-          targets: wordData.targets,
-        });
+    getRandomWord(list[currentLevel]).then((wordData) => {
+      setWordInfo({
+        source: wordData.source,
+        targets: wordData.targets,
       });
-
-      setNumQuizzed(numQuizzed + 1);
-    } else {
-      setDone(true);
-    }
-  }, [list]);
+    });
+  }, [list, currentLevel]);
 
   return (
     <View>
