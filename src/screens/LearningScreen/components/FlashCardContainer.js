@@ -38,15 +38,20 @@ const FlashCardContainer = () => {
 
   useEffect(() => {
     let mounted = true;
+
     getUserData().then((userData) => {
       let newList;
+
       if (userData.wordList) {
         newList = userData.wordList;
       } else {
         newList = {};
         newList.one = null;
       }
-      mounted ? setList(newList) : null;
+
+      if (mounted) {
+        setList(newList);
+      }
     });
 
     return () => {

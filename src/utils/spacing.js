@@ -7,31 +7,33 @@ const LIMITS = [8, 6, 4, 2, 1];
 export const getNewLevel = (list, currentLevel, numQuizzed) => {
   const current = LEVELS.indexOf(currentLevel);
   const allLevelsDone =
-    current >= LEVELS.length - 1 &&
+    current >= LEVELS.length &&
     (numQuizzed >= LIMITS[current] ||
       !list[currentLevel] ||
       Object.keys(list[currentLevel]));
+
+  if (allLevelsDone) {
+    return null;
+  }
+
   const needNewLevel =
     numQuizzed >= LIMITS[current] ||
     !list[currentLevel] ||
     !Object.keys(list[currentLevel]).length;
 
-  if (allLevelsDone) {
-    return null;
-  } else if (needNewLevel) {
+  if (needNewLevel) {
     return getNewLevel(list, LEVELS[current + 1], 0);
-  } else {
-    return currentLevel;
   }
+
+  return currentLevel;
 };
 
 export const getNewWordLevel = (currentLevel) => {
   const current = LEVELS.indexOf(currentLevel);
   if (current >= LEVELS.length - 1) {
     return null;
-  } else {
-    return LEVELS[current + 1];
   }
+  return LEVELS[current + 1];
 };
 
 export const handleCorrectOrIncorrect = (
