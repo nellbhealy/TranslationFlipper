@@ -11,14 +11,6 @@ import {
 } from '../../../utils/spacing';
 import FlashCard from './FlashCard';
 
-const handleRevealButtonPress = (setRevealed) => {
-  setRevealed((flipped) => !flipped);
-};
-
-const handleExpressionsButtonPress = (setExpanded) => {
-  setExpanded((isExpanded) => !isExpanded);
-};
-
 const FlashCardContainer = () => {
   const [list, setList] = useState({});
   const [wordInfo, setWordInfo] = useState({});
@@ -26,6 +18,14 @@ const FlashCardContainer = () => {
   const [isRevealed, setRevealed] = useState(false);
   const [currentLevel, setCurrentLevel] = useState('one');
   const [numQuizzed, setNumQuizzed] = useState(0);
+
+  const handleExpressionsButtonPress = () => {
+    setExpanded((expanded) => !expanded);
+  };
+
+  const handleRevealButtonPress = () => {
+    setRevealed((flipped) => !flipped);
+  };
 
   const handleCorrectOrIncorrectButtonPress = (isCorrect) => {
     const temp = handleCorrectOrIncorrect(
@@ -61,9 +61,10 @@ const FlashCardContainer = () => {
       return;
     }
 
-    const limit = LIMITS[LEVELS.indexOf(currentLevel)];
-
-    if (!Object.keys(list[currentLevel]).length || numQuizzed >= limit) {
+    const currentLevelEmpty = !Object.keys(list[currentLevel]).length;
+    const levelLimit = LIMITS[LEVELS.indexOf(currentLevel)];
+    const numQuizzedPastLimit = numQuizzed >= levelLimit;
+    if (currentLevelEmpty || numQuizzedPastLimit) {
       setCurrentLevel(getNewWordLevel(currentLevel));
       setNumQuizzed(0);
     } else {
@@ -89,11 +90,11 @@ const FlashCardContainer = () => {
             isExpanded={isExpanded}>
             <Button
               title={isExpanded ? 'Hide Expressions' : 'Show Expressions'}
-              onPress={() => handleExpressionsButtonPress(setExpanded)}
+              onPress={handleExpressionsButtonPress}
             />
             <Button
               title={isRevealed ? 'Hide' : 'Reveal'}
-              onPress={() => handleRevealButtonPress(setRevealed)}
+              onPress={handleRevealButtonPress}
             />
             {isRevealed ? (
               <View>

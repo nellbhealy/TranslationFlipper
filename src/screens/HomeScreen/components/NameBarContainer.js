@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, Button, ScrollView } from 'react-native';
 
 import {
@@ -26,23 +26,19 @@ const NameBarContainer = () => {
   const [inputText, setInputText] = useState('');
   const [userData, setUserData] = useState({});
 
+  const refreshList = useCallback(() => {
+    getUserWordList(name).then(setUserData);
+  }, [name]);
+
   useEffect(() => {
-    getData().then((value) => setName(value));
+    getData().then(setName);
   }, []);
 
   useEffect(() => {
-    getUserWordList(name).then((value) => setUserData(value));
-  }, [name]);
-
-  const refreshList = () => {
-    getUserWordList(name).then((value) => setUserData(value));
-  };
+    refreshList();
+  }, [refreshList]);
 
   const getWords = () => {
-    // const words = {};
-    // Object.keys(userData || {}).map(
-    //   (key) => (words[key] = Object.keys(userData[key])),
-    // );
     const levels = Object.keys(userData);
     if (levels.length) {
       const words = levels.reduce(

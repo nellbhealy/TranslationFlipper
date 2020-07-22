@@ -98,7 +98,7 @@ export const addWordToUserList = async (word) => {
     await AsyncStorage.setItem(`@${user}`, JSON.stringify(userData));
     return true;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return false;
   }
 };
