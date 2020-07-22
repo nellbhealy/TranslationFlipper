@@ -39,11 +39,23 @@ const NameBarContainer = () => {
   };
 
   const getWords = () => {
-    const words = {};
-    Object.keys(userData).map(
-      (key) => (words[key] = Object.keys(userData[key])),
-    );
-    return words;
+    // const words = {};
+    // Object.keys(userData || {}).map(
+    //   (key) => (words[key] = Object.keys(userData[key])),
+    // );
+    const levels = Object.keys(userData);
+    if (levels.length) {
+      const words = levels.reduce(
+        (obj, level) => ({
+          ...obj,
+          [level]: Object.keys(userData[level]),
+        }),
+        {},
+      );
+      return words;
+    }
+
+    return {};
   };
   return (
     <View>
