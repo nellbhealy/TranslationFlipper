@@ -8,7 +8,7 @@ import {
   getNewWordLevel,
   LIMITS,
   LEVELS,
-} from '../../../utils/spacing';
+} from '../../../utils/quizLogic';
 import FlashCard from './FlashCard';
 
 const FlashCardContainer = () => {

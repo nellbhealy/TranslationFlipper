@@ -43,17 +43,31 @@ export const handleCorrectOrIncorrect = (
   list,
   currentLevel,
 ) => {
-  const tempList = { ...list };
   const lemma = getTargetLemma(word);
-  delete tempList[currentLevel][lemma];
-
   const newLevel = isCorrect ? getNewWordLevel(currentLevel) : LEVELS[0];
-  if (newLevel) {
-    tempList[newLevel][lemma] = word;
-  }
-  updateUserWordList(tempList);
 
-  return tempList;
+  const newList = Object.keys(list).reduce((listObj, level) => {
+    let levelObj;
+    if (level === currentLevel) {
+      const keepers = Object.keys(list[level]).filter((key) => key !== lemma);
+      levelObj = keepers.reduce(
+        (obj, key) => ({
+          ...obj,
+          [key]: list[level][key],
+        }),
+        {},
+      );
+    } else if (level === newLevel) {
+      levelObj = { ...list[level], [lemma]: word };
+    } else {
+      levelObj = list[level];
+    }
+    return { ...listObj, [level]: levelObj };
+  }, {});
+
+  updateUserWordList(newList);
+
+  return newList;
 };
 
 export const getRandomWord = async (wordList) => {
