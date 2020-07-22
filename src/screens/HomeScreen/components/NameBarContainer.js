@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, Button, ScrollView } from 'react-native';
 
 import {
   getUser,
   setUser,
-  getUserData,
   clearWordList,
-  getWordData,
+  getUserWordList,
 } from '../../../utils/storage';
 
 import NameBar from './NameBar';
@@ -25,18 +24,35 @@ const handleClearButtonPress = async () => {
 const NameBarContainer = () => {
   const [name, setName] = useState('');
   const [inputText, setInputText] = useState('');
-  const [userData, setUserData] = useState('');
+  const [userData, setUserData] = useState({});
+
+  const refreshList = useCallback(() => {
+    getUserWordList(name).then(setUserData);
+  }, [name]);
 
   useEffect(() => {
-    getData().then((value) => setName(value));
+    getData().then(setName);
   }, []);
 
   useEffect(() => {
-    getUserData(name)
-      .then((list) => list.wordList.map((word) => word.word))
-      .then((value) => setUserData(value));
-  }, [name]);
+    refreshList();
+  }, [refreshList]);
 
+  const getWords = () => {
+    const levels = Object.keys(userData);
+    if (levels.length) {
+      const words = levels.reduce(
+        (obj, level) => ({
+          ...obj,
+          [level]: Object.keys(userData[level]),
+        }),
+        {},
+      );
+      return words;
+    }
+
+    return {};
+  };
   return (
     <View>
       <Text>Hi, {name}</Text>
@@ -46,7 +62,9 @@ const NameBarContainer = () => {
       />
       <Button title="Clear word list" onPress={handleClearButtonPress} />
       <ScrollView>
-        <Text>User Data: {JSON.stringify(userData)}</Text>
+        <Text onPress={refreshList}>
+          User Data: {JSON.stringify(getWords())}
+        </Text>
       </ScrollView>
     </View>
   );

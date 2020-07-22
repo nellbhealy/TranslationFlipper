@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import NameBarContainer from './components/NameBarContainer';
+import { View } from 'react-native';
+import FlashCardContainer from './components/FlashCardContainer';
 
 const LearningScreen = () => (
   <View>
-    <Text>Learning Screen</Text>
-    <NameBarContainer />
+    <FlashCardContainer />
   </View>
 );
 

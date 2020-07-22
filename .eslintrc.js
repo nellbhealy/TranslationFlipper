@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['@react-native-community', 'airbnb-base'],
+  extends: ['@react-native-community', 'airbnb-base', 'prettier'],
   plugins: ['prettier'],
   rules: {
     'implicit-arrow-linebreak': 'off',
@@ -10,6 +10,6 @@ module.exports = {
         ImportDeclaration: { multiline: true, minProperties: 5 },
       },
     ],
-    'function-paren-newline': ['error', 'multiline-arguments'],
+    'function-paren-newline': 'off',
   },
 };
