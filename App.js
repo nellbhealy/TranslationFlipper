@@ -1,10 +1,15 @@
 import React from 'react';
+
+// Components
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './src/screens/home/HomeScreen';
 import SearchScreen from './src/screens/search/SearchScreen';
 import LearningScreen from './src/screens/learning/LearningScreen';
 import SettingsScreen from './src/screens/settings/SettingsScreen';
+
+Icon.loadFont();
 
 const Stack = createStackNavigator();
 
