@@ -39,7 +39,9 @@ const NameBarContainer = () => {
   }, [refreshList]);
 
   const getWords = () => {
-    const levels = Object.keys(userData);
+    const levels = Object.keys(
+      userData || { one: [], two: [], three: [], four: [], five: [] },
+    );
     if (levels.length) {
       const words = levels.reduce(
         (obj, level) => ({
