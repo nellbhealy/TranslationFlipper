@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, Button, ScrollView } from 'react-native';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 
+// Components
+import { View, Text, Button, ScrollView } from 'react-native';
+import NameBar from './NameBar';
+
+// Utils
 import {
   getUser,
   setUser,
@@ -8,7 +12,8 @@ import {
   getUserWordList,
 } from '../../../utils/storage';
 
-import NameBar from './NameBar';
+// Context
+import UserContext from '../../../UserContext';
 
 const updateData = (inputText, setName) => {
   setName(inputText);
@@ -22,7 +27,7 @@ const handleClearButtonPress = async () => {
 };
 
 const NameBarContainer = () => {
-  const [name, setName] = useState('');
+  const [name, setName] = useContext(UserContext);
   const [inputText, setInputText] = useState('');
   const [userData, setUserData] = useState({});
 
@@ -32,16 +37,14 @@ const NameBarContainer = () => {
 
   useEffect(() => {
     getData().then(setName);
-  }, []);
+  }, [setName]);
 
   useEffect(() => {
     refreshList();
   }, [refreshList]);
 
   const getWords = () => {
-    const levels = Object.keys(
-      userData || { one: [], two: [], three: [], four: [], five: [] },
-    );
+    const levels = Object.keys(userData || {});
     if (levels.length) {
       const words = levels.reduce(
         (obj, level) => ({

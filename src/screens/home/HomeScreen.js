@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 // Components
 import { StatusBar } from 'react-native';
@@ -20,16 +20,19 @@ import {
 // Utils
 import { getUser } from '../../utils/storage';
 
+// Context
+import UserContext from '../../UserContext';
+
 // Vars
 const CONTENT = `This is where any content will go for the home page! I'm not sure what will end up going, but it's going to be good!
   Use the links at the bottom of the screen to navigate to search or learning pages!`;
 
 const HomeScreen = ({ navigation }) => {
-  const [user, setUser] = useState('Loading...');
+  const [user, setUser] = useContext(UserContext);
 
   useEffect(() => {
     getUser().then(setUser);
-  }, []);
+  }, [setUser]);
 
   return (
     <>
