@@ -1,7 +1,21 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 
 // Components
-import { View, Text, Button, ScrollView } from 'react-native';
+import { View, ScrollView, StatusBar } from 'react-native';
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Footer,
+  FooterTab,
+  Button,
+  Left,
+  Right,
+  Body,
+  Icon,
+  Text,
+} from 'native-base';
 import NameBar from './NameBar';
 
 // Utils
@@ -43,6 +57,11 @@ const SettingsContainer = () => {
     refreshList();
   }, [refreshList]);
 
+  const logOut = () => {
+    setUser(null);
+    setName(null);
+  };
+
   const getWords = () => {
     const levels = Object.keys(userData || {});
     if (levels.length) {
@@ -59,19 +78,40 @@ const SettingsContainer = () => {
     return {};
   };
   return (
-    <View>
-      <Text>{name ? `Logged in as: ${name}` : 'Log in to see your data!'}</Text>
-      <NameBar
-        setInputText={setInputText}
-        updateData={() => updateData(inputText, setName)}
-      />
-      <Button title="Clear word list" onPress={handleClearButtonPress} />
-      <ScrollView>
-        <Text onPress={refreshList}>
-          User Data: {JSON.stringify(getWords())}
-        </Text>
-      </ScrollView>
-    </View>
+    <>
+      <StatusBar barStyle="dark-content" />
+      <Container>
+        <Header>
+          <Left />
+          <Body>
+            <Title>{name ? `User: ${name}` : 'Log in below!'}</Title>
+          </Body>
+          <Right />
+        </Header>
+        <Container>
+          <Content>
+            <NameBar
+              setInputText={setInputText}
+              updateData={() => updateData(inputText, setName)}
+            />
+
+            <Text onPress={refreshList}>
+              User Data: {JSON.stringify(getWords())}
+            </Text>
+          </Content>
+        </Container>
+        <Footer>
+          <FooterTab>
+            <Button title="Clear word list" onPress={handleClearButtonPress}>
+              <Text>Clear word list</Text>
+            </Button>
+            <Button title="Log out" onPress={logOut}>
+              <Text>Log out</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container>
+    </>
   );
 };
 

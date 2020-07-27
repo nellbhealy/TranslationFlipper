@@ -1,13 +1,13 @@
 import React from 'react';
 
 // Components
-import { View } from 'react-native';
+import { Container } from 'native-base';
 import SettingsContainer from './components/SettingsContainer';
 
 const SettingsScreen = () => (
-  <View>
+  <Container>
     <SettingsContainer />
-  </View>
+  </Container>
 );
 
 export default SettingsScreen;
