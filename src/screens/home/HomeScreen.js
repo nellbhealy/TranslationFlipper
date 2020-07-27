@@ -21,7 +21,7 @@ import {
 import { getUser } from '../../utils/storage';
 
 // Context
-import UserContext from '../../UserContext';
+import UserContext from '../../contexts/UserContext';
 
 // Vars
 const CONTENT = `This is where any content will go for the home page! I'm not sure what will end up going, but it's going to be good!

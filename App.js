@@ -10,7 +10,7 @@ import LearningScreen from './src/screens/learning/LearningScreen';
 import SettingsScreen from './src/screens/settings/SettingsScreen';
 
 // Context
-import UserContext from './src/UserContext';
+import UserContext from './src/contexts/UserContext';
 
 Icon.loadFont();
 

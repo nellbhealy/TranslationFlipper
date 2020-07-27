@@ -13,7 +13,7 @@ import {
 } from '../../../utils/storage';
 
 // Context
-import UserContext from '../../../UserContext';
+import UserContext from '../../../contexts/UserContext';
 
 const updateData = (inputText, setName) => {
   setName(inputText);
