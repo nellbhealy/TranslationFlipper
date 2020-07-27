@@ -26,7 +26,7 @@ const handleClearButtonPress = async () => {
   clearWordList();
 };
 
-const NameBarContainer = () => {
+const SettingsContainer = () => {
   const [name, setName] = useContext(UserContext);
   const [inputText, setInputText] = useState('');
   const [userData, setUserData] = useState({});
@@ -60,7 +60,7 @@ const NameBarContainer = () => {
   };
   return (
     <View>
-      <Text>Hi, {name}</Text>
+      <Text>{name ? `Logged in as: ${name}` : 'Log in to see your data!'}</Text>
       <NameBar
         setInputText={setInputText}
         updateData={() => updateData(inputText, setName)}
@@ -75,4 +75,4 @@ const NameBarContainer = () => {
   );
 };
 
-export default NameBarContainer;
+export default SettingsContainer;

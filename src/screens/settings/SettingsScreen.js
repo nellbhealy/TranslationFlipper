@@ -2,11 +2,11 @@ import React from 'react';
 
 // Components
 import { View } from 'react-native';
-import NameBarContainer from './components/NameBarContainer';
+import SettingsContainer from './components/SettingsContainer';
 
 const SettingsScreen = () => (
   <View>
-    <NameBarContainer />
+    <SettingsContainer />
   </View>
 );
 
