@@ -19,9 +19,9 @@ export const getUser = async () => {
     if (user !== null) {
       return user;
     }
-    return DEFAULT_USER;
+    return null;
   } catch (e) {
-    return DEFAULT_USER;
+    return null;
   }
 };
 
