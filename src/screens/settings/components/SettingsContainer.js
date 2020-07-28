@@ -17,6 +17,8 @@ import {
   Text,
   Form,
   Picker,
+  H1,
+  H3,
 } from 'native-base';
 import NameBar from './NameBar';
 
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
   wordListContainer: {
     display: 'flex',
     flexDirection: 'row',
+    padding: 5,
   },
   wordList: {
     flex: 5,
@@ -45,6 +48,9 @@ const styles = StyleSheet.create({
   refresh: {
     flex: 1,
     flexDirection: 'row',
+  },
+  wordLevel: {
+    padding: 15,
   },
 });
 
@@ -147,6 +153,24 @@ const SettingsContainer = () => {
     return pickers;
   };
 
+  const getWordLevels = () => {
+    const words = getWords();
+
+    const listWords = (str, word) => `${str}, ${word}`;
+
+    const components = Object.keys(words).map((level) => (
+      <View style={styles.wordLevel}>
+        <H3>
+          {level[0].toUpperCase()}
+          {level.slice(1)}
+        </H3>
+        <Text>{words[level].reduce(listWords, '').slice(2)}</Text>
+      </View>
+    ));
+
+    return components;
+  };
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -178,13 +202,14 @@ const SettingsContainer = () => {
               />
             )}
             <View style={styles.wordListContainer}>
-              <View style={styles.wordList}>
-                <Text>User Data: {JSON.stringify(getWords())}</Text>
+              <View>
+                <H1>Words</H1>
               </View>
               <Button transparent onPress={refreshList} style={styles.refresh}>
                 <Icon name="refresh" />
               </Button>
             </View>
+            {getWordLevels()}
           </Content>
         </Container>
         <Footer>
