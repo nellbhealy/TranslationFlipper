@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 
 // Components
-import { View, ScrollView, StatusBar } from 'react-native';
+import { View, ScrollView, StatusBar, Alert } from 'react-native';
 import {
   Container,
   Header,
@@ -36,8 +36,23 @@ const updateData = (inputText, setName) => {
 
 const getData = async () => getUser();
 
-const handleClearButtonPress = async () => {
+const clearWords = async () => {
   clearWordList();
+};
+
+const handleClearButtonPress = () => {
+  Alert.alert(
+    'Are you sure you want to delete all of your words?',
+    'This action is irreversible. You will lose all of your word data.',
+    [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      { text: 'Delete All Words', onPress: clearWords, style: 'danger' },
+    ],
+  );
 };
 
 const SettingsContainer = () => {
