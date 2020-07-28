@@ -17,9 +17,6 @@ import {
   Text,
 } from 'native-base';
 
-// Utils
-import { getUser } from '../../utils/storage';
-
 // Context
 import UserContext from '../../contexts/UserContext';
 
@@ -28,11 +25,7 @@ const CONTENT = `This is where any content will go for the home page! I'm not su
   Use the links at the bottom of the screen to navigate to search or learning pages!`;
 
 const HomeScreen = ({ navigation }) => {
-  const [user, setUser] = useContext(UserContext);
-
-  useEffect(() => {
-    getUser().then(setUser);
-  }, [setUser]);
+  const [user] = useContext(UserContext);
 
   return (
     <>

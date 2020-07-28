@@ -62,8 +62,6 @@ const updateData = (inputText, setName) => {
   setUser(inputText);
 };
 
-const getData = async () => getUser();
-
 const clearWords = async () => {
   clearWordList();
 };
@@ -102,10 +100,6 @@ const SettingsContainer = () => {
   useEffect(() => {
     getUsers().then(setUsers);
   }, [setUsers]);
-
-  useEffect(() => {
-    getData().then(setName);
-  }, [setName]);
 
   useEffect(() => {
     refreshList();

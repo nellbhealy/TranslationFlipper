@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Components
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,14 +12,22 @@ import SettingsScreen from './src/screens/settings/SettingsScreen';
 // Context
 import UserContext from './src/contexts/UserContext';
 
+// Utils
+import { getUser } from './src/utils/storage';
+
 Icon.loadFont();
 
 const Stack = createStackNavigator();
 
 const App = () => {
-  const userState = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    getUser().then(setUser);
+  }, [setUser]);
+
   return (
-    <UserContext.Provider value={userState}>
+    <UserContext.Provider value={[user, setUser]}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
