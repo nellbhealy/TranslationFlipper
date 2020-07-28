@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+
+// Components
+import { View, TextInput, StyleSheet } from 'react-native';
+import { Button, Text } from 'native-base';
 
 const PLACEHOLDER_TEXT = 'What is your name?';
 const MARGIN = 16;
@@ -30,7 +33,9 @@ const NameBar = (props) => (
       style={styles.input}
     />
     <View style={styles.button}>
-      <Button onPress={props.updateData} title="search" />
+      <Button onPress={props.updateData} title="search">
+        <Text>search</Text>
+      </Button>
     </View>
   </View>
 );

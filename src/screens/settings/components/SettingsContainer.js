@@ -94,7 +94,6 @@ const SettingsContainer = () => {
               setInputText={setInputText}
               updateData={() => updateData(inputText, setName)}
             />
-
             <Text onPress={refreshList}>
               User Data: {JSON.stringify(getWords())}
             </Text>
