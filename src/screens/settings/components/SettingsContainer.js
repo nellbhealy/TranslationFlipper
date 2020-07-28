@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 
 // Components
-import { View, ScrollView, StatusBar, Alert } from 'react-native';
+import { StatusBar, Alert, StyleSheet, View } from 'react-native';
 import {
   Container,
   Header,
@@ -15,6 +15,8 @@ import {
   Body,
   Icon,
   Text,
+  Form,
+  Picker,
 } from 'native-base';
 import NameBar from './NameBar';
 
@@ -24,10 +26,30 @@ import {
   setUser,
   clearWordList,
   getUserWordList,
+  getAllUsers,
 } from '../../../utils/storage';
 
 // Context
 import UserContext from '../../../contexts/UserContext';
+
+// Styles
+const styles = StyleSheet.create({
+  wordListContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  wordList: {
+    flex: 5,
+    flexDirection: 'row',
+  },
+  refresh: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+});
+
+// Vars
+const NEW_USER = 'New User';
 
 const updateData = (inputText, setName) => {
   setName(inputText);
@@ -55,14 +77,25 @@ const handleClearButtonPress = () => {
   );
 };
 
+const getUsers = async () => {
+  const users = await getAllUsers();
+  return users;
+};
+
 const SettingsContainer = () => {
   const [name, setName] = useContext(UserContext);
   const [inputText, setInputText] = useState('');
   const [userData, setUserData] = useState({});
+  const [users, setUsers] = useState([]);
+  const [inputVisible, setInputVisible] = useState(false);
 
   const refreshList = useCallback(() => {
     getUserWordList(name).then(setUserData);
   }, [name]);
+
+  useEffect(() => {
+    getUsers().then(setUsers);
+  }, [setUsers]);
 
   useEffect(() => {
     getData().then(setName);
@@ -71,6 +104,11 @@ const SettingsContainer = () => {
   useEffect(() => {
     refreshList();
   }, [refreshList]);
+
+  useEffect(() => {
+    setInputVisible(false);
+    setUser(name);
+  }, [name]);
 
   const logOut = () => {
     setUser(null);
@@ -87,11 +125,28 @@ const SettingsContainer = () => {
         }),
         {},
       );
+
       return words;
     }
 
     return {};
   };
+
+  const changeUser = (value) => {
+    if (value !== NEW_USER) {
+      setName(value);
+    } else {
+      setInputVisible(true);
+    }
+  };
+
+  const getPickerItems = () => {
+    const pickers = [...users, NEW_USER].map((user) => (
+      <Picker.Item label={user} value={user} />
+    ));
+    return pickers;
+  };
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -105,13 +160,31 @@ const SettingsContainer = () => {
         </Header>
         <Container>
           <Content>
-            <NameBar
-              setInputText={setInputText}
-              updateData={() => updateData(inputText, setName)}
-            />
-            <Text onPress={refreshList}>
-              User Data: {JSON.stringify(getWords())}
-            </Text>
+            <Form>
+              <Picker
+                mode="dropdown"
+                placeholder={name}
+                iosHeader="Select a user"
+                iosIcon={<Icon name="chevron-down-outline" />}
+                selectedValue={name}
+                onValueChange={changeUser}>
+                {getPickerItems()}
+              </Picker>
+            </Form>
+            {!inputVisible ? null : (
+              <NameBar
+                setInputText={setInputText}
+                updateData={() => updateData(inputText, setName)}
+              />
+            )}
+            <View style={styles.wordListContainer}>
+              <View style={styles.wordList}>
+                <Text>User Data: {JSON.stringify(getWords())}</Text>
+              </View>
+              <Button transparent onPress={refreshList} style={styles.refresh}>
+                <Icon name="refresh" />
+              </Button>
+            </View>
           </Content>
         </Container>
         <Footer>
