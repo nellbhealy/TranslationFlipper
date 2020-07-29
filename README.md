@@ -14,8 +14,8 @@ If you use Translation Flipper, you'll never have to run in to this scenario aga
 Pull repo down:
 
 ```
-git clone https://github.com/vigetlabs/EcoCart.git
-cd EcoCart
+https://github.com/lwbecker/TranslationFlipper.git
+cd TranslationFlipper
 ```
 
 Install packages:
