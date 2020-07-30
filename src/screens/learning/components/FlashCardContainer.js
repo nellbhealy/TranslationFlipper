@@ -60,7 +60,6 @@ const FlashCardContainer = () => {
     if (!list || !currentLevel || !list[currentLevel]) {
       return;
     }
-
     const currentLevelEmpty = !Object.keys(list[currentLevel]).length;
     const levelLimit = LIMITS[LEVELS.indexOf(currentLevel)];
     const numQuizzedPastLimit = numQuizzed >= levelLimit;

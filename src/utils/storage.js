@@ -1,9 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { DEFAULT_USER } from './constants';
 import { getTargetLemma } from '../api/getters';
-
-const DEFAULT_USER_ERROR = 'No user selected! Have you logged in?';
 
 const getBlankUserWordList = () => ({
   one: {},
@@ -13,21 +10,43 @@ const getBlankUserWordList = () => ({
   five: {},
 });
 
+export const getAllUsers = async () => {
+  try {
+    const usersJson = AsyncStorage.getItem('@users').then(JSON.parse);
+    const users = usersJson || {};
+    return users;
+  } catch {
+    return {};
+  }
+};
+
 export const getUser = async () => {
   try {
     const user = await AsyncStorage.getItem('@user');
-    if (user !== null) {
-      return user;
-    }
-    return null;
+    return user;
   } catch (e) {
     return null;
+  }
+};
+
+export const addUser = async (user) => {
+  try {
+    const users = await getAllUsers();
+    users[user] = { wordList: getBlankUserWordList() };
+    await AsyncStorage.setItem('@users', JSON.stringify(users));
+    return true;
+  } catch {
+    return false;
   }
 };
 
 export const setUser = async (user) => {
   try {
     await AsyncStorage.setItem('@user', user);
+    const users = await getAllUsers();
+    if (!users[user]) {
+      addUser(user);
+    }
     return true;
   } catch {
     return false;
@@ -35,21 +54,21 @@ export const setUser = async (user) => {
 };
 
 export const getUserData = async (userParam) => {
-  let user;
-  if (!userParam) {
-    user = await getUser();
-  } else {
-    user = userParam;
-  }
+  const user = userParam || (await getUser());
   try {
-    if (user === DEFAULT_USER) {
-      return DEFAULT_USER_ERROR;
+    if (!user) {
+      return null;
     }
-    let userData = await AsyncStorage.getItem(`@${user}`);
-    userData = JSON.parse(userData);
+    const users = await getAllUsers();
+    const userData = users[user] || {};
+
+    if (!userData.wordList || !Object.keys(userData.wordList).length) {
+      userData.wordList = getBlankUserWordList();
+    }
+
     return userData;
   } catch (e) {
-    return DEFAULT_USER_ERROR;
+    return null;
   }
 };
 
@@ -65,10 +84,18 @@ const getWordList = async () => {
 
 const addToWordList = async (word) => {
   const wordList = await getWordList();
-  if (!wordList) return false;
+
+  if (!wordList) {
+    return false;
+  }
+
   try {
     const lemma = getTargetLemma(word);
-    if (Object.keys(wordList).includes(lemma)) return false;
+
+    if (Object.keys(wordList).includes(lemma)) {
+      return false;
+    }
+
     wordList[lemma] = word;
     await AsyncStorage.setItem('@wordList', JSON.stringify(wordList));
     return true;
@@ -80,22 +107,20 @@ const addToWordList = async (word) => {
 export const addWordToUserList = async (word) => {
   try {
     const user = await getUser();
-    let userData = await getUserData(user);
-
-    if (userData === DEFAULT_USER_ERROR) {
+    if (!user) {
       return false;
     }
+    const userData = await getUserData(user);
 
-    if (!userData) {
-      userData = {
-        wordList: getBlankUserWordList(),
-      };
-    }
     userData.wordList.one[getTargetLemma(word)] = {
       otherInfo: { date: new Date() },
     };
+
     addToWordList(word);
-    await AsyncStorage.setItem(`@${user}`, JSON.stringify(userData));
+    const users = await getAllUsers();
+    users[user] = userData;
+
+    await AsyncStorage.setItem('@users', JSON.stringify(users));
     return true;
   } catch (error) {
     console.error(error);
@@ -105,16 +130,22 @@ export const addWordToUserList = async (word) => {
 
 export const clearWordList = async () => {
   const user = await getUser();
-  if (user === DEFAULT_USER) return false;
+
+  if (!user) {
+    return false;
+  }
+
   try {
     const userData = await getUserData(user);
 
-    if (userData === DEFAULT_USER_ERROR || !userData || !userData.wordList) {
+    if (!userData || !userData.wordList) {
       return false;
     }
 
     userData.wordList = getBlankUserWordList();
-    await AsyncStorage.setItem(`@${user}`, JSON.stringify(userData));
+    const users = getAllUsers();
+    users[user] = userData;
+    await AsyncStorage.setItem('@users', JSON.stringify(users));
     return true;
   } catch (error) {
     return false;
@@ -133,23 +164,12 @@ export const updateUserWordList = async (wordList) => {
   try {
     const user = await getUser();
     const data = await getUserData(user);
+    const users = await getAllUsers();
     data.wordList = wordList;
-    await AsyncStorage.setItem(`@${user}`, JSON.stringify(data));
+    users[user] = data;
+    await AsyncStorage.setItem('@users', JSON.stringify(users));
     return true;
   } catch {
     return false;
-  }
-};
-
-export const getAllUsers = async () => {
-  try {
-    const allKeys = await AsyncStorage.getAllKeys();
-    const nonUserKeys = ['@wordList', '@user'];
-    const users = allKeys
-      .filter((key) => !nonUserKeys.includes(key))
-      .map((key) => key.slice(1));
-    return users;
-  } catch {
-    return [];
   }
 };

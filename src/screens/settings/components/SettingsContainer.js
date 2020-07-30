@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 
 // Components
-import { StatusBar, Alert, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import {
   Container,
   Header,
@@ -24,7 +24,6 @@ import NameBar from './NameBar';
 
 // Utils
 import {
-  getUser,
   setUser,
   clearWordList,
   getUserWordList,
@@ -83,7 +82,7 @@ const handleClearButtonPress = () => {
 
 const getUsers = async () => {
   const users = await getAllUsers();
-  return users;
+  return Object.keys(users);
 };
 
 const SettingsContainer = () => {
