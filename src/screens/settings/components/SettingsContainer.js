@@ -62,7 +62,7 @@ const updateData = (inputText, setName) => {
   setUser(inputText);
 };
 
-const clearWords = async () => {
+const clearWords = () => {
   clearWordList();
 };
 
