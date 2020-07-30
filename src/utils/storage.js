@@ -19,9 +19,9 @@ export const getUser = async () => {
     if (user !== null) {
       return user;
     }
-    return DEFAULT_USER;
+    return null;
   } catch (e) {
-    return DEFAULT_USER;
+    return null;
   }
 };
 
@@ -138,5 +138,18 @@ export const updateUserWordList = async (wordList) => {
     return true;
   } catch {
     return false;
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const allKeys = await AsyncStorage.getAllKeys();
+    const nonUserKeys = ['@wordList', '@user'];
+    const users = allKeys
+      .filter((key) => !nonUserKeys.includes(key))
+      .map((key) => key.slice(1));
+    return users;
+  } catch {
+    return [];
   }
 };
