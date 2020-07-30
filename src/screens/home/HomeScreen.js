@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 // Components
-import { StatusBar } from 'react-native';
 import {
   Container,
   Header,
@@ -16,6 +15,7 @@ import {
   Icon,
   Text,
 } from 'native-base';
+import ScreenWrapper from '../../components/ScreenWrapper';
 
 // Context
 import UserContext from '../../contexts/UserContext';
@@ -28,8 +28,7 @@ const HomeScreen = ({ navigation }) => {
   const [user] = useContext(UserContext);
 
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
+    <ScreenWrapper>
       <Container>
         <Header>
           <Left />
@@ -60,7 +59,7 @@ const HomeScreen = ({ navigation }) => {
           </FooterTab>
         </Footer>
       </Container>
-    </>
+    </ScreenWrapper>
   );
 };
 

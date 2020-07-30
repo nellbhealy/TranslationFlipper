@@ -1,11 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
 import FlashCardContainer from './components/FlashCardContainer';
+import ScreenWrapper from '../../components/ScreenWrapper';
 
 const LearningScreen = () => (
-  <View>
+  <ScreenWrapper>
     <FlashCardContainer />
-  </View>
+  </ScreenWrapper>
 );
 
 export default LearningScreen;

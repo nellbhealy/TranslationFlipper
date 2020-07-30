@@ -167,7 +167,6 @@ const SettingsContainer = () => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
       <Container>
         <Header>
           <Left />
