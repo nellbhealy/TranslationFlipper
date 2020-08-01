@@ -143,7 +143,7 @@ export const clearWordList = async () => {
     }
 
     userData.wordList = getBlankUserWordList();
-    const users = getAllUsers();
+    const users = await getAllUsers();
     users[user] = userData;
     await AsyncStorage.setItem('@users', JSON.stringify(users));
     return true;
