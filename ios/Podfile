@@ -44,8 +44,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'personalProject' do
-  # Pods for personalProject
+target 'TranslationFlipper' do
+  # Pods for TranslationFlipper
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -80,7 +80,7 @@ target 'personalProject' do
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
 
-  target 'personalProjectTests' do
+  target 'TranslationFlipperTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -97,10 +97,10 @@ target 'personalProject' do
   end
 end
 
-target 'personalProject-tvOS' do
-  # Pods for personalProject-tvOS
+target 'TranslationFlipper-tvOS' do
+  # Pods for TranslationFlipper-tvOS
 
-  target 'personalProject-tvOSTests' do
+  target 'TranslationFlipper-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
