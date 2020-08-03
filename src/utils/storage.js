@@ -10,6 +10,11 @@ const getBlankUserWordList = () => ({
   five: {},
 });
 
+/**
+ * Gets object containing all users
+ *
+ * @return {Object<string, Object<string, Object<string, String[]>>>} All users
+ */
 export const getAllUsers = async () => {
   try {
     const usersJson = AsyncStorage.getItem('@users').then(JSON.parse);
@@ -20,6 +25,11 @@ export const getAllUsers = async () => {
   }
 };
 
+/**
+ * Gets current user's name
+ *
+ * @return {string} User's name
+ */
 export const getUser = async () => {
   try {
     const user = await AsyncStorage.getItem('@user');
@@ -29,6 +39,14 @@ export const getUser = async () => {
   }
 };
 
+/**
+ * Writes new user to storage
+ *
+ * @see getAllUsers
+ * @see getBlankUserWordList
+ *
+ * @return {boolean} Successful?
+ */
 export const addUser = async (user) => {
   try {
     const users = await getAllUsers();
@@ -40,12 +58,22 @@ export const addUser = async (user) => {
   }
 };
 
-export const setUser = async (user) => {
+/**
+ * Sets current user in storage
+ *
+ * @see getAllUsers
+ * @see addUser
+ *
+ * @param {string} userName
+ *
+ * @return {boolean} Successful?
+ */
+export const setUser = async (userName) => {
   try {
-    await AsyncStorage.setItem('@user', user);
+    await AsyncStorage.setItem('@user', userName);
     const users = await getAllUsers();
-    if (!users[user]) {
-      addUser(user);
+    if (!users[userName]) {
+      addUser(userName);
     }
     return true;
   } catch {
@@ -53,14 +81,25 @@ export const setUser = async (user) => {
   }
 };
 
+/**
+ * Gets user object
+ *
+ * @see getUser
+ * @see getAllUsers
+ * @see getBlankUserWordList
+ *
+ * @param {string} userParam (optional)
+ *
+ * @return {Object<string, Object<string, String[]>>} User object
+ */
 export const getUserData = async (userParam) => {
-  const user = userParam || (await getUser());
+  const userName = userParam || (await getUser());
   try {
-    if (!user) {
+    if (!userName) {
       return null;
     }
     const users = await getAllUsers();
-    const userData = users[user] || {};
+    const userData = users[userName] || {};
 
     if (!userData.wordList || !Object.keys(userData.wordList).length) {
       userData.wordList = getBlankUserWordList();
@@ -72,6 +111,11 @@ export const getUserData = async (userParam) => {
   }
 };
 
+/**
+ * Gets all cached word objects
+ *
+ * @return {Object<string, object>}
+ */
 const getWordList = async () => {
   try {
     const list = await AsyncStorage.getItem('@wordList');
@@ -82,6 +126,16 @@ const getWordList = async () => {
   }
 };
 
+/**
+ * Writes item into wordList in storage
+ *
+ * @see getWordList
+ * @see getTargetLemma
+ *
+ * @param {string} word
+ *
+ * @returns {boolean} Successful?
+ */
 const addToWordList = async (word) => {
   const wordList = await getWordList();
 
@@ -104,13 +158,22 @@ const addToWordList = async (word) => {
   }
 };
 
+/**
+ * Adds word to user's list of words and writes to storage
+ *
+ * @see addToWordList
+ *
+ * @param {object} word Word object
+ *
+ * @return {boolean} Successful?
+ */
 export const addWordToUserList = async (word) => {
   try {
-    const user = await getUser();
-    if (!user) {
+    const userName = await getUser();
+    if (!userName) {
       return false;
     }
-    const userData = await getUserData(user);
+    const userData = await getUserData(userName);
 
     userData.wordList.one[getTargetLemma(word)] = {
       otherInfo: { date: new Date() },
@@ -118,7 +181,7 @@ export const addWordToUserList = async (word) => {
 
     addToWordList(word);
     const users = await getAllUsers();
-    users[user] = userData;
+    users[userName] = userData;
 
     await AsyncStorage.setItem('@users', JSON.stringify(users));
     return true;
@@ -128,6 +191,11 @@ export const addWordToUserList = async (word) => {
   }
 };
 
+/**
+ * Clears user's list of words in storage
+ *
+ * @returns {boolean} Successful?
+ */
 export const clearWordList = async () => {
   const user = await getUser();
 
@@ -152,14 +220,35 @@ export const clearWordList = async () => {
   }
 };
 
+/**
+ * Gets word object from target language lemma
+ *
+ * @param {string} lemma
+ *
+ * @return {object} Word object
+ */
 export const getWordData = async (lemma) => {
   const wordData = await getWordList();
   return wordData[lemma];
 };
 
-export const getUserWordList = async (user) =>
-  getUserData(user).then((list) => list.wordList);
+/**
+ * Returns object with user's saved words
+ *
+ * @param {string} userName
+ *
+ * @returns {Object<string, String[]>} wordList object
+ */
+export const getUserWordList = async (userName) =>
+  getUserData(userName).then((list) => list.wordList);
 
+/**
+ * Takes a user wordList object and replaces the one in storage
+ *
+ * @param {Object<string, String[]} wordList
+ *
+ * @returns {boolean} Successful?
+ */
 export const updateUserWordList = async (wordList) => {
   try {
     const user = await getUser();
