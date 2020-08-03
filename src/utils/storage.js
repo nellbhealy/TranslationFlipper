@@ -47,10 +47,10 @@ export const getUser = async () => {
  *
  * @return {boolean} Successful?
  */
-export const addUser = async (user) => {
+export const addUser = async (userName) => {
   try {
     const users = await getAllUsers();
-    users[user] = { wordList: getBlankUserWordList() };
+    users[userName] = { wordList: getBlankUserWordList() };
     await AsyncStorage.setItem('@users', JSON.stringify(users));
     return true;
   } catch {
