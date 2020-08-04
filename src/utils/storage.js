@@ -98,7 +98,7 @@ export const getUserData = async (userParam) => {
     if (!userName) {
       return null;
     }
-    const users = await getAllUsers();
+    const users = (await getAllUsers()) || {};
     const userData = users[userName] || {};
 
     if (!userData.wordList || !Object.keys(userData.wordList).length) {
@@ -180,7 +180,7 @@ export const addWordToUserList = async (word) => {
     };
 
     addToWordList(word);
-    const users = await getAllUsers();
+    const users = (await getAllUsers()) || {};
     users[userName] = userData;
 
     await AsyncStorage.setItem('@users', JSON.stringify(users));
