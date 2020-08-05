@@ -13,9 +13,9 @@ import { addWordToUserList } from '../../../utils/storage';
 const BUTTON_TEXT = 'Add Word';
 
 const styles = StyleSheet.create({
-  entry: {
-    margin: 5,
-    backgroundColor: 'white',
+  card: {
+    marginLeft: 10,
+    marginRight: 10,
   },
   topEntry: {
     flexDirection: 'row',
@@ -37,7 +37,7 @@ const DictionaryEntry = ({ wordInfo }) => {
   };
 
   return (
-    <Card>
+    <Card style={styles.card}>
       <CardItem header style={styles.topEntry}>
         <Text>
           {wordInfo.source.lemma}{' '}
