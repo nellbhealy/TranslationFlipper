@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
 import PropTypes from 'prop-types';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 
+// Components
+import { StyleSheet } from 'react-native';
+import { Button, Card, CardItem, Body, Text } from 'native-base';
 import DictionaryEntryExpansion from './DictionaryEntryExpansion';
+
+// Utils
 import { addWordToUserList } from '../../../utils/storage';
 
+// Vars
 const BUTTON_TEXT = 'Add Word';
 
 const styles = StyleSheet.create({
@@ -20,11 +24,6 @@ const styles = StyleSheet.create({
   pos: { fontStyle: 'italic' },
 });
 
-const handleButtonPress = (word) => {
-  addWordToUserList(word);
-};
-
-// make this DictionaryEntryContainer
 const DictionaryEntry = ({ wordInfo }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -32,34 +31,53 @@ const DictionaryEntry = ({ wordInfo }) => {
     setIsExpanded((expanded) => !expanded);
   };
 
+  const handleButtonPress = () => {
+    addWordToUserList(wordInfo);
+    setIsExpanded(false);
+  };
+
   return (
-    <View style={styles.entry}>
-      <TouchableHighlight onPress={handlePress}>
-        <View>
-          <View style={styles.topEntry}>
-            <Text>
-              {wordInfo.source.lemma}{' '}
-              <Text style={styles.pos}>({wordInfo.source.pos})</Text>
-            </Text>
-            <Text>{wordInfo.targets[0].lemma}</Text>
-          </View>
-          {isExpanded ? (
+    <Card>
+      <CardItem header style={styles.topEntry}>
+        <Text>
+          {wordInfo.source.lemma}{' '}
+          <Text style={styles.pos}>({wordInfo.source.pos})</Text>
+        </Text>
+        <Text>{wordInfo.targets[0].lemma}</Text>
+      </CardItem>
+      {isExpanded ? (
+        <CardItem>
+          <Body>
             <DictionaryEntryExpansion
               expressions={wordInfo.targets[0].expressions}
-              handleButtonPress={() => {
-                handleButtonPress(wordInfo);
-              }}
+              handleButtonPress={handleButtonPress}
             />
-          ) : null}
-        </View>
-      </TouchableHighlight>
-      {isExpanded ? (
-        <Button
-          title={BUTTON_TEXT}
-          onPress={() => handleButtonPress(wordInfo)}
-        />
+          </Body>
+        </CardItem>
       ) : null}
-    </View>
+      <CardItem footer>
+        {isExpanded ? (
+          <Button
+            small
+            transparent
+            bordered
+            success
+            title={BUTTON_TEXT}
+            onPress={handleButtonPress}>
+            <Text>{BUTTON_TEXT}</Text>
+          </Button>
+        ) : null}
+        <Button
+          small
+          transparent
+          bordered
+          light
+          title={BUTTON_TEXT}
+          onPress={handlePress}>
+          <Text>{isExpanded ? 'See less' : 'See more'}</Text>
+        </Button>
+      </CardItem>
+    </Card>
   );
 };
 
