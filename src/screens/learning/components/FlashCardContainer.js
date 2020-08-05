@@ -14,6 +14,7 @@ import {
   Body,
   Text,
   Button,
+  H1,
 } from 'native-base';
 import ScreenWrapper from '../../../components/ScreenWrapper';
 import FlashCard from './FlashCard';
@@ -33,7 +34,14 @@ import {
 
 // Styles
 const styles = StyleSheet.create({
+  content: {
+    justifyContent: 'center',
+  },
   button: {
+    width: '50%',
+    justifyContent: 'center',
+  },
+  buttonText: {
     color: 'white',
   },
 });
@@ -109,66 +117,72 @@ const FlashCardContainer = () => {
     }
   }, [list, currentLevel, numQuizzed]);
 
+  const placeHolderText = () => (currentLevel ? NOT_LOGGED_IN : 'All Done!');
+
   return (
     <ScreenWrapper>
       <Container>
         <Header>
           <Left />
           <Body>
-            <Title>Level {currentLevel}</Title>
+            <Title>
+              {currentLevel ? `Level ${currentLevel}` : 'All Done!'}
+            </Title>
           </Body>
           <Right />
         </Header>
         <Content>
-          {user ? (
-            <>
-              <FlashCard
-                word={wordInfo}
-                isRevealed={isRevealed}
-                isExpanded={isExpanded}>
-                <Button
-                  small
-                  transparent
-                  bordered
-                  title={isExpanded ? 'Hide Expressions' : 'Show Expressions'}
-                  onPress={handleExpressionsButtonPress}>
-                  <Text>
-                    {isExpanded ? 'Hide Expressions' : 'Show Expressions'}
-                  </Text>
-                </Button>
-                <Button
-                  small
-                  transparent
-                  bordered
-                  title={isRevealed ? 'Hide' : 'Reveal'}
-                  onPress={handleRevealButtonPress}>
-                  <Text>{isRevealed ? 'Hide' : 'Reveal'}</Text>
-                </Button>
-              </FlashCard>
-            </>
+          {user && currentLevel ? (
+            <FlashCard
+              word={wordInfo}
+              isRevealed={isRevealed}
+              isExpanded={isExpanded}>
+              <Button
+                small
+                transparent
+                bordered
+                style={styles.button}
+                title={isExpanded ? 'Hide Expressions' : 'Show Expressions'}
+                onPress={handleExpressionsButtonPress}>
+                <Text>
+                  {isExpanded ? 'Hide Expressions' : 'Show Expressions'}
+                </Text>
+              </Button>
+              <Button
+                small
+                transparent
+                bordered
+                style={styles.button}
+                title={isRevealed ? 'Hide' : 'Reveal'}
+                onPress={handleRevealButtonPress}>
+                <Text>{isRevealed ? 'Hide' : 'Reveal'}</Text>
+              </Button>
+            </FlashCard>
           ) : (
-            <Text>{NOT_LOGGED_IN}</Text>
+            <H1>{placeHolderText()}</H1>
           )}
         </Content>
         <Footer>
-          <FooterTab>
-            <Button
-              success
-              title="Got It"
-              onPress={() => {
-                handleCorrectOrIncorrectButtonPress(true);
-              }}>
-              <Text style={styles.button}>Got It</Text>
-            </Button>
-            <Button
-              danger
-              title="Missed It"
-              onPress={() => {
-                handleCorrectOrIncorrectButtonPress(false);
-              }}>
-              <Text style={styles.button}>Missed It</Text>
-            </Button>
-          </FooterTab>
+          {user && currentLevel ? (
+            <FooterTab>
+              <Button
+                success
+                title="Got It"
+                onPress={() => {
+                  handleCorrectOrIncorrectButtonPress(true);
+                }}>
+                <Text style={styles.buttonText}>Got It</Text>
+              </Button>
+              <Button
+                danger
+                title="Missed It"
+                onPress={() => {
+                  handleCorrectOrIncorrectButtonPress(false);
+                }}>
+                <Text style={styles.buttonText}>Missed It</Text>
+              </Button>
+            </FooterTab>
+          ) : null}
         </Footer>
       </Container>
     </ScreenWrapper>
