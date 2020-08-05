@@ -11,6 +11,7 @@ import {
   Left,
   Right,
   Body,
+  Text,
 } from 'native-base';
 import SearchBar from './SearchBar';
 import DictionaryEntriesContainer from './DictionaryEntriesContainer';
