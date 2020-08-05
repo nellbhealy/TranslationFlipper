@@ -187,53 +187,6 @@ const FlashCardContainer = () => {
       </Container>
     </ScreenWrapper>
   );
-
-  // return (
-  //   <View>
-  //     {!currentLevel ? (
-  //       <Text>All Done!</Text>
-  //     ) : (
-  //       <>
-  //         <Text>Level {currentLevel}</Text>
-  //         <FlashCard
-  //           word={wordInfo}
-  //           isRevealed={isRevealed}
-  //           isExpanded={isExpanded}>
-  //           <Button
-  //             title={isExpanded ? 'Hide Expressions' : 'Show Expressions'}
-  //             onPress={handleExpressionsButtonPress}>
-  //             <Text>
-  //               {isExpanded ? 'Hide Expressions' : 'Show Expressions'}
-  //             </Text>
-  //           </Button>
-  //           <Button
-  //             title={isRevealed ? 'Hide' : 'Reveal'}
-  //             onPress={handleRevealButtonPress}>
-  //             <Text>{isRevealed ? 'Hide' : 'Reveal'}</Text>
-  //           </Button>
-  //           {isRevealed ? (
-  //             <View>
-  //               <Button
-  //                 title="Got It"
-  //                 onPress={() => {
-  //                   handleCorrectOrIncorrectButtonPress(true);
-  //                 }}>
-  //                 <Text>Got It</Text>
-  //               </Button>
-  //               <Button
-  //                 title="Missed It"
-  //                 onPress={() => {
-  //                   handleCorrectOrIncorrectButtonPress(false);
-  //                 }}>
-  //                 <Text>Missed It</Text>
-  //               </Button>
-  //             </View>
-  //           ) : null}
-  //         </FlashCard>
-  //       </>
-  //     )}
-  //   </View>
-  // );
 };
 
 export default FlashCardContainer;
