@@ -87,7 +87,7 @@ const SearchContainer = () => {
             </Content>
           </>
         ) : (
-          NOT_LOGGED_IN
+          <Text>{NOT_LOGGED_IN}</Text>
         )}
 
         <Footer>
