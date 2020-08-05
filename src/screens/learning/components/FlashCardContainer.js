@@ -1,6 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { View, Button, Text } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
 
+// Components
+import { StyleSheet } from 'react-native';
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Footer,
+  FooterTab,
+  Left,
+  Right,
+  Body,
+  Text,
+  Button,
+} from 'native-base';
+import ScreenWrapper from '../../../components/ScreenWrapper';
+import FlashCard from './FlashCard';
+
+// Context
+import userContext from '../../../contexts/UserContext';
+
+// Utils
 import { getUserData } from '../../../utils/storage';
 import {
   getRandomWord,
@@ -9,9 +30,20 @@ import {
   LIMITS,
   LEVELS,
 } from '../../../utils/quizLogic';
-import FlashCard from './FlashCard';
+
+// Styles
+const styles = StyleSheet.create({
+  button: {
+    color: 'white',
+  },
+});
+
+// Vars
+const NOT_LOGGED_IN =
+  'Navigate to the settings tab on the home page to log in!';
 
 const FlashCardContainer = () => {
+  const [user] = useContext(userContext);
   const [list, setList] = useState({});
   const [wordInfo, setWordInfo] = useState({});
   const [isExpanded, setExpanded] = useState(false);
@@ -78,45 +110,116 @@ const FlashCardContainer = () => {
   }, [list, currentLevel, numQuizzed]);
 
   return (
-    <View>
-      {!currentLevel ? (
-        <Text>All Done!</Text>
-      ) : (
-        <>
-          <Text>Level {currentLevel}</Text>
-          <FlashCard
-            word={wordInfo}
-            isRevealed={isRevealed}
-            isExpanded={isExpanded}>
-            <Button
-              title={isExpanded ? 'Hide Expressions' : 'Show Expressions'}
-              onPress={handleExpressionsButtonPress}
-            />
-            <Button
-              title={isRevealed ? 'Hide' : 'Reveal'}
-              onPress={handleRevealButtonPress}
-            />
-            {isRevealed ? (
-              <View>
+    <ScreenWrapper>
+      <Container>
+        <Header>
+          <Left />
+          <Body>
+            <Title>Level {currentLevel}</Title>
+          </Body>
+          <Right />
+        </Header>
+        <Content>
+          {user ? (
+            <>
+              <FlashCard
+                word={wordInfo}
+                isRevealed={isRevealed}
+                isExpanded={isExpanded}>
                 <Button
-                  title="Got It"
-                  onPress={() => {
-                    handleCorrectOrIncorrectButtonPress(true);
-                  }}
-                />
+                  small
+                  transparent
+                  bordered
+                  title={isExpanded ? 'Hide Expressions' : 'Show Expressions'}
+                  onPress={handleExpressionsButtonPress}>
+                  <Text>
+                    {isExpanded ? 'Hide Expressions' : 'Show Expressions'}
+                  </Text>
+                </Button>
                 <Button
-                  title="Missed It"
-                  onPress={() => {
-                    handleCorrectOrIncorrectButtonPress(false);
-                  }}
-                />
-              </View>
-            ) : null}
-          </FlashCard>
-        </>
-      )}
-    </View>
+                  small
+                  transparent
+                  bordered
+                  title={isRevealed ? 'Hide' : 'Reveal'}
+                  onPress={handleRevealButtonPress}>
+                  <Text>{isRevealed ? 'Hide' : 'Reveal'}</Text>
+                </Button>
+              </FlashCard>
+            </>
+          ) : (
+            <Text>{NOT_LOGGED_IN}</Text>
+          )}
+        </Content>
+        <Footer>
+          <FooterTab>
+            <Button
+              success
+              title="Got It"
+              onPress={() => {
+                handleCorrectOrIncorrectButtonPress(true);
+              }}>
+              <Text style={styles.button}>Got It</Text>
+            </Button>
+            <Button
+              danger
+              title="Missed It"
+              onPress={() => {
+                handleCorrectOrIncorrectButtonPress(false);
+              }}>
+              <Text style={styles.button}>Missed It</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container>
+    </ScreenWrapper>
   );
+
+  // return (
+  //   <View>
+  //     {!currentLevel ? (
+  //       <Text>All Done!</Text>
+  //     ) : (
+  //       <>
+  //         <Text>Level {currentLevel}</Text>
+  //         <FlashCard
+  //           word={wordInfo}
+  //           isRevealed={isRevealed}
+  //           isExpanded={isExpanded}>
+  //           <Button
+  //             title={isExpanded ? 'Hide Expressions' : 'Show Expressions'}
+  //             onPress={handleExpressionsButtonPress}>
+  //             <Text>
+  //               {isExpanded ? 'Hide Expressions' : 'Show Expressions'}
+  //             </Text>
+  //           </Button>
+  //           <Button
+  //             title={isRevealed ? 'Hide' : 'Reveal'}
+  //             onPress={handleRevealButtonPress}>
+  //             <Text>{isRevealed ? 'Hide' : 'Reveal'}</Text>
+  //           </Button>
+  //           {isRevealed ? (
+  //             <View>
+  //               <Button
+  //                 title="Got It"
+  //                 onPress={() => {
+  //                   handleCorrectOrIncorrectButtonPress(true);
+  //                 }}>
+  //                 <Text>Got It</Text>
+  //               </Button>
+  //               <Button
+  //                 title="Missed It"
+  //                 onPress={() => {
+  //                   handleCorrectOrIncorrectButtonPress(false);
+  //                 }}>
+  //                 <Text>Missed It</Text>
+  //               </Button>
+  //             </View>
+  //           ) : null}
+  //         </FlashCard>
+  //       </>
+  //     )}
+  //   </View>
+  // );
 };
 
 export default FlashCardContainer;

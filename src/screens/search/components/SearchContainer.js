@@ -90,7 +90,6 @@ const SearchContainer = () => {
         ) : (
           <Text>{NOT_LOGGED_IN}</Text>
         )}
-
         <Footer>
           <FooterTab />
         </Footer>
