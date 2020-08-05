@@ -21,8 +21,8 @@ import ScreenWrapper from '../../components/ScreenWrapper';
 import UserContext from '../../contexts/UserContext';
 
 // Vars
-const CONTENT = `This is where any content will go for the home page! I'm not sure what will end up going, but it's going to be good!
-  Use the links at the bottom of the screen to navigate to search or learning pages!`;
+const CONTENT =
+  'Use the links at the bottom of the screen to navigate to search or learning pages!';
 
 const HomeScreen = ({ navigation }) => {
   const [user] = useContext(UserContext);
