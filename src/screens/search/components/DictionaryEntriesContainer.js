@@ -1,8 +1,12 @@
 import React from 'react';
-import { Text, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
+
+// Components
+import { Text } from 'native-base';
 import DictionaryEntry from './DictionaryEntry';
-import { SEARCHING_MESSAGE } from '../../../utils/constants';
+
+// Vars
+const SEARCHING_MESSAGE = 'Searching...';
 
 const DictionaryEntriesContainer = ({ data, emptyMessage, isSearching }) => {
   const getEntries = () => {
@@ -17,11 +21,7 @@ const DictionaryEntriesContainer = ({ data, emptyMessage, isSearching }) => {
     return Object.keys(data).map(makeEntries);
   };
 
-  return (
-    <ScrollView>
-      {isSearching ? <Text>{SEARCHING_MESSAGE}</Text> : getEntries()}
-    </ScrollView>
-  );
+  return <>{isSearching ? <Text>{SEARCHING_MESSAGE}</Text> : getEntries()}</>;
 };
 
 DictionaryEntriesContainer.propTypes = {

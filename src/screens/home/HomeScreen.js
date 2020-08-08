@@ -21,11 +21,13 @@ import ScreenWrapper from '../../components/ScreenWrapper';
 import UserContext from '../../contexts/UserContext';
 
 // Vars
-const CONTENT = `This is where any content will go for the home page! I'm not sure what will end up going, but it's going to be good!
-  Use the links at the bottom of the screen to navigate to search or learning pages!`;
+const CONTENT =
+  'Use the links at the bottom of the screen to navigate to search or learning pages!';
 
 const HomeScreen = ({ navigation }) => {
   const [user] = useContext(UserContext);
+  const title = user ? `Hey, ${user}!` : 'Not logged in!';
+  const text = user ? CONTENT : 'Navigate to the settings page to log in!';
 
   return (
     <ScreenWrapper>
@@ -33,7 +35,7 @@ const HomeScreen = ({ navigation }) => {
         <Header>
           <Left />
           <Body>
-            <Title>Hey, {user}!</Title>
+            <Title>{title}</Title>
           </Body>
           <Right>
             <Button transparent onPress={() => navigation.navigate('Settings')}>
@@ -42,7 +44,7 @@ const HomeScreen = ({ navigation }) => {
           </Right>
         </Header>
         <Content>
-          <Text>{CONTENT}</Text>
+          <Text>{text}</Text>
         </Content>
         <Footer>
           <FooterTab>

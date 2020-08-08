@@ -1,5 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+
+// Components
+import { View, StyleSheet } from 'react-native';
+import { Text } from 'native-base';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,5 +22,9 @@ const Expression = ({ expressions }) => (
     <Text style={styles.expression}>{expressions.target}</Text>
   </View>
 );
+
+Expression.propTypes = {
+  expressions: PropTypes.objectOf(PropTypes.string).isRequired,
+};
 
 export default Expression;
